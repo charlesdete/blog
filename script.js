@@ -44,3 +44,33 @@ if(window.innerWidth< 768){
         searchForm.classList.remove('show');
     }
    
+const chart = document.querySelector("#chart").getContext('2d');
+
+//create a new chart instance
+new Chart(chart, {
+       type:'line',
+       data:{
+           labels:['Jan', 'Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov'],
+
+           datasets:[
+            {
+                label:'Post',
+                data:[10,30,35,47,50,70,62,50,47,42,60],
+                borderColor: 'red',
+                borderWidth: 2
+            },
+            {
+                label:'Featured',
+                data:[15,24,36,53,60,48,57,68,75,70,74],
+                borderColor: 'blue',
+                borderWidth: 2  
+            }
+           ]
+       },
+       options:{
+        responsive:true
+       }
+
+})
+
+

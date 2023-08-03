@@ -1,13 +1,54 @@
 <?php
 session_start();
+$email=$_SESSION['Email'];
+ if( empty($_SESSION['Email'])){
+    header('location:home.php');
+    exit();
+} 
+// require 'check-sess-cookies.php';
+$_SERVER['REQUEST_METHOD'] ==='POST';
+$servername = "localhost";
+$dbname = "project_x";
+$dbusername = "charlie";
+$dbpassword = "root123@";
+ 
+$conn =mysqli_connect($servername,$dbusername,$dbpassword,$dbname);
+
+//check connection
+if(!$conn){
+    die("connection failed:" .mysqli_connect_error());
+}
+// $email="";
+// $email= $_SESSION['Email'];
+// $session_query= "SELECT * FROM users WHERE Email LIMIT 1";
+// $session_result =mysqli_query($conn,$session_query);
+// $session =mysqli_fetch_assoc($session_result);
+
+
+
+
+// require('check-sess-cookies.php');
 if(isset($_POST['login'])){
     $user_email =$_POST['Email'];
 if($user_email == "Email"){
     if(isset($_POST['remember']));
-    
-}
-}
+
+
+}}
+ 
+$featured_query= "SELECT * FROM posts WHERE is_featured=1";
+$featured_result =mysqli_query($conn,$featured_query);
+$featured =mysqli_fetch_assoc($featured_result);
+
+//fetch 9 posts from posts table
+$query = "SELECT * FROM posts ORDER BY date_time DESC LIMIT 9";
+$posts=mysqli_query($conn,$query);
+
+
+
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -16,27 +57,30 @@ if($user_email == "Email"){
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width", intial-scale="1.0">
         <title>Blog Website</title>
-        <link rel="stylesheet"  href="./style2.css">
+        <link rel="stylesheet"  href="style2.css">
         <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
         <link href="https://fonts.googleapis.com/css2?family=Monserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+        
+    
     </head>
     <body>
-          <nav>
+    
+          <nav> 
             <div class="container nav_container">
-                <a href="index.html" class="nav_logo">SPECTACULAR VIEWS</a>
+                <a href="index.php" class="nav_logo">SPECTACULAR VIEWS</a>
              <ul class="nav_items">
-               <li><a href="blog.html">Blog</a></li>
-               <li><a href="about.html">About</a></li>
-               <li><a href="services.html">Services</a></li>
-               <li><a href="contact.html">Contact</a></li>
-               <li><a href="registration.php">Signin</a></li>
+               <li><a href="blog.php">Blog</a></li>
+               <li><a href="about.php">About</a></li>
+               <li><a href="services.php">Services</a></li>
+               <li><a href="contact.php">Contact</a></li>
+               <!-- <li><a href="registration.php">Signin</a></li> -->
                <li class="nav_profile">
                 <div style="display:inline-flex ;align-items: center;">
                     <div class="avatar">
-                        <img src="https://images.unsplash.com/photo-1601625463687-25541fb72f62?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8Mnx8fGVufDB8fHx8fA%3D%3D&w=1000&q=80">
+                        <img src="./images/<?= $featured['thumbnail'] ?>">
                     </div>
                     <div class="user">  
-                            <span>Welcome <br><?php print_r($_SESSION['Email']);?></span>
+                            <!-- <span>Welcome <br><?php print_r($email);?></span> -->
                     </div>
                 </div>
                 <ul>
@@ -45,144 +89,101 @@ if($user_email == "Email"){
                 </ul>
                 </li>
             </ul>
-    
            <button id="open_nav-btn"><i class="uil uil-bars"></i></button>
            <button id="close_nav-btn"><li class="uil uil-multiply"></li></button>
          </div>
           </nav>
-   
-          <section class="featured">
+          <br\></br></br><br\></br></br>
+          <!--show featured post if there`s any-->
+          <?php if(mysqli_num_rows($featured_result) == 1) : ?>
+           <section class="featured">
             <div class="container post">
                 <div class="post_thumbnail">
-                    <img src="https://images.unsplash.com/photo-1601625463687-25541fb72f62?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8Mnx8fGVufDB8fHx8fA%3D%3D&w=1000&q=80">
+                    <img src="images<?= $featured['thumbnail'] ?>">
                 </div>
                 <div class="post_info">
-                    <a href="category-post.html" class="category_button">Wild life</a>
-                    <h2 class="post_title"><a href=""post.html>WILDLIFE!</a></h2>
+                 <?php
+                 //fetch category from categories table using category_id of posts table
+                 $category_id= $featured['category_id'];
+                 $category_query= "SELECT * FROM categories WHERE id= $category_id";
+                 $category_result = mysqli_query($conn,$category_query);
+                 $category =mysqli_fetch_assoc($category_result);
+                 $category_title = $category['title'];
+                      ?>
+                    <a href="category-post.php?id=<?= $category['id'] ?>" class="category_button"><?=$category_title ?></a>
+                    <h2 class="post_title"><a href="post.php?id=<?= $featured['id'] ?>"><?= $featured['title'] ?></a></h2>
                 <p class="post_body">
-                    Wildlife encompasses a diverse range of creatures inhabiting our planet, from majestic elephants and swift cheetahs to intricate insects and vibrant tropical birds. It plays a vital role in maintaining ecological balance, showcasing the incredible beauty and resilience found in nature's intricate tapestry.
+                    <?=substr( $featured['body'],0, 300) ?>...
                 </p>
                 <div class="post_author">
-                    <div  class="post_author-avatar">
-                        <img src="https://thumbs.dreamstime.com/b/solar-energy-panels-wind-turbines-alternative-53900997.jpg">
-                    </div>
-                    <div class="post_author-info">
-                        <h5>by:Mary danso</h5>
-                        <small>June 10,2022 -07:23</small>
+               <?php 
+                //fetch author from users table using id
+                $author_id=$featured['id'];
+                $author_query = "SELECT * FROM users WHERE id=$author_id";
+                $author_result =  mysqli_query($conn,$author_query);
+               $author = mysqli_fetch_assoc($author_result);
+               ?>
+                <div  class="post_author-avatar">
+                     <img src="images<?= $featured['thumbnail'] ?>">
+                      </div>
+                      <div class="post_author-info">
+                        <!-- <h5>by: <?= "{$author['Name']}" ?></h5> -->
+                        <small>
+                            <?= date("M d, Y = H:i",strtotime($featured['date_time'])) ?>
+                        </small>
                     </div>
                 </div>
                 </div>
             </div>
           </section>
+          <?php endif ?>
+        
+          <!---END OF FEATURED--->
+
           <section class="posts">
           <div class="container posts_container">
+             <?php while ($post = mysqli_fetch_assoc($posts)): ?> 
                <article class="posts">
                  <div class="post_thumbnail">
-                    <img src="https://images.unsplash.com/photo-1601625463687-25541fb72f62?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8Mnx8fGVufDB8fHx8fA%3D%3D&w=1000&q=80">
+                    <img src="images<?= $post['thumbnail'] ?>">
                  </div>
                  <div class="post_info">
                     <a href="category-post.html" class="category_button">Wild life</a>
                     <h3 class="post_title">
-                        <a href="post.html">WILD ANIMALS.</a>
+                        <a href="post.php?id=<?= $post['id'] ?>"><?= $post['title'] ?></a>
                     </h3>
                     <p clas="post_body">
-                       
-Wild animals, untamed and awe-inspiring, roam the earth with primal grace. From fierce lions ruling the savannah to agile leopards prowling the jungle, they embody strength, agility, and adaptability. Their existence reminds us of the raw beauty and untamed wonders that nature has to offer. 
+                    <?=substr( $post['body'],0, 300) ?>...
                     </p>
                     <div class="post_author">
                         <div class="post_author-avatar">
-                            <img src="https://images.unsplash.com/photo-1601625463687-25541fb72f62?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8Mnx8fGVufDB8fHx8fA%3D%3D&w=1000&q=80">
+                            <img src="images<?= $post['thumbnail'] ?>">
                         </div>
                         <div class="post_author-info">
-                            <h5>by:John mils</h5>
-                            <small>June 23,2022 -10:34</small>
+                            <!-- <h5>by:<?$author['Name'] ?></h5> -->
+                            <small>
+                            <?= date("M d, Y = H:i",strtotime($post['date_time'])) ?>
+                            </small>
                         </div>
                     </div>
                  </div>
                </article>
-               <article class="posts">
-                <div class="post_thumbnail">
-                   <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMwFBPmocMU3bAb8nJ3rLt3at8dII70QeSAbAfx4kOXxGFEuoP_yFs69ZYwntUthM6meI&usqp=CAU">
-                </div>
-                <div class="post_info">
-                   <a href="category-post.html" class="category_button">Wild life</a>
-                   <h3 class="post_title">
-                       <a href="post.html">lorem ipsum dolor sit amet consectetur adisicing elit.soluta, odit.</a>
-                   </h3>
-                   <p clas="post_body">
-                       lorem ipsum dolor sit amet consectetur adisicing elit.soluta, odit.
-                   </p>
-                   <div class="post_author">
-                       <div class="post_author-avatar">
-                           <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMwFBPmocMU3bAb8nJ3rLt3at8dII70QeSAbAfx4kOXxGFEuoP_yFs69ZYwntUthM6meI&usqp=CAU">
-                       </div>
-                       <div class="post_author-info">
-                           <h5>by:John mils</h5>
-                           <small>June 23,2022 -10:34</small>
-                       </div>
-                   </div>
-                </div>
-              </article>
-              <article class="posts">
-                <div class="post_thumbnail">
-                   <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSXHveRb22xhboyQnWAycF7LFkk3LE3j8gEF9pE7l4QBjROo5JQlsiYQXwLmZ6Ewpm0xHA&usqp=CAU">
-                </div>
-                <div class="post_info">
-                   <a href="category-post.html" class="category_button">Wild life</a>
-                   <h3 class="post_title">
-                       <a href="post.html">lorem ipsum dolor sit amet consectetur adisicing elit.soluta, odit.</a>
-                   </h3>
-                   <p clas="post_body">
-                       lorem ipsum dolor sit amet consectetur adisicing elit.soluta, odit.
-                   </p>
-                   <div class="post_author">
-                       <div class="post_author-avatar">
-                           <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSXHveRb22xhboyQnWAycF7LFkk3LE3j8gEF9pE7l4QBjROo5JQlsiYQXwLmZ6Ewpm0xHA&usqp=CAU">
-                       </div>
-                       <div class="post_author-info">
-                           <h5>by:John mils</h5>
-                           <small>June 23,2022 -10:34</small>
-                       </div>
-                   </div>
-                </div>
-              </article>
-              <article class="posts">
-                <div class="post_thumbnail">
-                   <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxUJjCgc5af9lAoGZTqp_9QmHWFWRYHtsp8ZIVt31ai7a6bOCdCJ0FlZ8L4zki2MYA-oY&usqp=CAU">
-                </div>
-                <div class="post_info">
-                   <a href="category-post.html" class="category_button">Wild life</a>
-                   <h3 class="post_title">
-                       <a href="post.html">lorem ipsum dolor sit amet consectetur adisicing elit.soluta, odit.</a>
-                   </h3>
-                   <p clas="post_body">
-                       lorem ipsum dolor sit amet consectetur adisicing elit.soluta, odit.
-                   </p>
-                   <div class="post_author">
-                       <div class="post_author-avatar">
-                           <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxUJjCgc5af9lAoGZTqp_9QmHWFWRYHtsp8ZIVt31ai7a6bOCdCJ0FlZ8L4zki2MYA-oY&usqp=CAU">
-                       </div>
-                       <div class="post_author-info">
-                           <h5>by:John mils</h5>
-                           <small>June 23,2022 -10:34</small>
-                       </div>
-                   </div>
-                </div>
-              </article>
+               <?php endwhile ?> 
           </div>
           </section>
+<!-- end o posts --> 
 
           <section class="category_button">
             <div class="container category_button-container">
-              <a href="food.html" class="category_button">Food</a>
-              <a href="wildlife.html" class="category_button">Wild Life</a>    
-              <a href="" class="category_button">Science & Technology</a> 
-              <a href="" class="category_button">Trevel</a> 
-              <a href="" class="category_button">Art</a> 
-              <a href="" class="category_button">Music</a> 
+                <?php 
+              $all_categories_query= "SELECT * FROM categories";
+              $all_categories = mysqli_query($conn,$all_categories_query);
+                ?>
+                <?php while($category = mysqli_fetch_assoc($all_categories)): ?>
+                <a href="category-post.php?id=<?=$category_id['id'] ?>" class="category_button"><?= $category['title'] ?></a> 
+                <?php endwhile ?>
             </div>
           </section>
-
 
           <footer>
             <div class="footer_socials">
@@ -244,4 +245,4 @@ Wild animals, untamed and awe-inspiring, roam the earth with primal grace. From 
           <script src="./main.js"></script>
     </body>
 </html>
-?>
+ 

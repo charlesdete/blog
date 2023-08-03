@@ -1,5 +1,19 @@
 <?PHP
-?><!DOCTYPE html>
+ require('check-sess-cookies.php');
+$servername = "localhost";
+$dbname = "project_x";
+$dbusername = "charlie";
+$dbpassword = "root123@";
+ 
+$conn =mysqli_connect($servername,$dbusername,$dbpassword,$dbname);
+
+//check connection
+if(!$conn){
+    die("connection failed:" .mysqli_connect_error());
+}
+ 
+?>
+<!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
@@ -8,6 +22,7 @@
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel="stylesheet">
         <title>TEMBEA NASI</title>
         <link rel="shortcut icon" href="{{asset(assets/images/logo.png)}}">
+       
     </head>
     <body>
         <section id="sidebar">
@@ -19,16 +34,22 @@
             <ul class="side-menu top">
 
                 <li>
-                    <a href="#">
+                    <a href="">
                         <i class="bx bxs-dashboard"></i>
                         <span class="text">Admin</span>
                     </a>
                 </li><br/>
                
                 <li>
-                    <a href="#">
-                        <i class="bx bxs-shopping-bag-alt"></i>
-                        <span class="text">Project</span>
+                    <a href="add-post.php">
+                        <i class="bx bxs-pen"></i>
+                        <span class="text">Add Post</span>
+                    </a>
+                </li><br/>
+                <li>
+                    <a href="manage-post.php">
+                        <i class="bx bxs-edit"></i>
+                        <span class="text">Manage Posts</span>
                     </a>
                 </li><br/>
                 <li>
@@ -38,15 +59,22 @@
                     </a>
                 </li><br/>
                 <li>
-                    <a href="#">
-                        <i class="bx bxs-message-dots"></i>
-                        <span class="text">Message</span>
+                    <a href="add-category.php">
+                        <i class="bx bxs-edit"></i>
+                        <span class="text">Categories</span>
+                    </a>
+                </li><br/>
+                <li>
+                    <a href="manage-categories.php">
+                        <i class="bx bxs-user-circle"></i>
+                        <span class="text"> Manage Categories</span>
                     </a>
                 </li><br/>
                 <li>
                     <a href="user.php">
-                        <i class="bx bxs-group"></i>
+                        <i class="bx bxs-user-plus"></i>
                         <span class="text">Add Users</span>
+                         
                     </a>
                 </li>
                 <br/><br/>
@@ -68,21 +96,24 @@
                 </li>
             </ul>
         </section>
-    <!--sidebar-->
-    <!--content-->
+    
       <section id="content">
+        <div class="content-space">
        <nav>
            <i class='bx bx-menu'></i>
             <a href="#" class="nav-link">Catergories</a>
-          <form action="#">
+          <form action="">
             <div  class="form-input">
-                <input type="search" placeholder="Search...">
-                <button type="submit" class="search-btn"><i class="bx bx-search"></i></button>
-            </div> 
+                <div class="card1">
+                      <input type="search" name="search"class="input-style" placeholder="search">
+                    <button type="submit" name="search" class="button"></button>
+</di>
+                </div> 
+
          </form>
          <a href="#" class="Notification">
         <i class="bx bxs-bell"></i>
-        <span class="num">8</span>
+        <span class="num"></span>
          </a>
          <a href="#" class="profile">
             <img src="img/people.png" alt="">
@@ -101,123 +132,17 @@
              </li> 
             </ul>
         </div>
-         <a href="#" class="btn-download">
+         <a href="download.php" class="btn-download">
             <i class="bx bxs-cloud-download"></i>
             <span class="text">Download PDF</span>
          </a>
         </div>
-        <ul class="box-info">
-        <li>
-        <i class='bx bxs-binoculars'></i>
-
-            <span class="text">
-            
-                <p>WILDLIFE</p>
-            </span> 
-        </li> 
-        <li>
-        <i class="bx bxs-ship"></i>
-            <span class="text">
-            
-                <p>Waterbodies</p>
-            </span> 
-        </li> 
-        <li>
-        <i class="bx bxs-tree"></i>
-            <span class="text">
-                <p> Terrain</p>
-            </span> 
-        </li> 
-        </ul>
-         
-        <div class="table-data">
-            <div class="order">
-                <div class="head">
-                <h3>Recent orders </h3>
-                <i class="bx bx-search"></i>
-                <i clas="bx bx-filter"></i>
-                </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>User</th>
-                        <th>Date Order</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                           <img src="img/people.png">
-                           <p>Charles Dete</p> 
-                        </td>
-                        <td>07-10-2021</td>
-                        <td><span class="status pending">Pending</span></td>
-                    </tr>
-                    <tr>
-                        <td>
-                           <img src="img/people.png">
-                           <p>John Doe</p> 
-                        </td>
-                        <td>06-10-2021</td>
-                        <td><span class="status process">Process</span></td>
-                    </tr>
-                    <tr>
-                        <td>
-                           <img src="">
-                           <p>Joseph Dete</p> 
-                        </td>
-                        <td>05-10-2021</td>
-                        <td><span class="status pending">Pending</span></td>
-                    </tr>
-                    <tr>
-                        <td>
-                           <img src="">
-                           <p>Gavin Njoroge</p> 
-                        </td>
-                        <td>04-10-2021</td>
-                        <td><span class="status completed">Completed</span></td>
-                    </tr>
-                    <tr>
-                        <td>
-                           <img src="img/people.png">
-                           <p>Calvin Klein</p> 
-                        </td>
-                        <td>03-10-2021</td>
-                        <td><span class="status completed">Completed</span></td>
-                    </tr>
-                </tbody>
-            </table>
+        <canvas id="chart"></canvas>
+     
+    </main>
         </div>
-            <div class="todo">
-                <div class="head">
-                <h3>Wild Animals </h3>
-                <i class="bx bx-plus"></i>
-                <i clas="bx bx-filter"></i>
-            </div>
-             <ul class="todo-list">
-            <li class="completed"> 
-                <p>Giraffe</p>
-                <i class="bx bx-dots-vertical-rounded"></i>
-            </li>
-            <li class="completed"> 
-                <p>Lions</p>
-                <i class="bx bx-dots-vertical-rounded"></i>
-            </li>
-            <li  class="not-completed"> 
-                <p>Rhinos</p>
-                <i class="bx bx-dots-vertical-rounded"></i>
-            </li>
-            <li class="completed"> 
-                <p>Elephant</p>
-                <i class="bx bx-dots-vertical-rounded"></i>
-            </li>
-        
-       </div>
-</div>
-      </main>
     </section>
-    <!--content-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.0/chart.min.js" integrity="sha512-GMGzUEevhWh8Tc/njS0bDpwgxdCJLQBWG3Z2Ct+JGOpVnEmjvNx6ts4v6A2XJf1HOrtOsfhv3hBKpK9kE5z8AQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script src="script.js"></script>
     </body>
 </html>

@@ -1,5 +1,6 @@
 <?php 
 session_start();
+require('check-sess-cookies.php');
 $servername = "localhost";
 $dbname = "project_x";
 $dbusername = "charlie";
@@ -20,7 +21,7 @@ if(!empty(trim($_POST['Email'])) && !empty(trim($_POST['password'])))
     $email = mysqli_real_escape_string($conn,$_POST['Email']);
     $password = mysqli_real_escape_string($conn,$_POST['password']);
    
-    $login_query ="SELECT * FROM users WHERE  email= '$email' AND password='$password' LIMIT 1";
+    $login_query ="SELECT * FROM users WHERE  Email= '$email' AND password='$password' LIMIT 1";
     $login_query_run =mysqli_query($conn,$login_query);
 
     if(mysqli_num_rows($login_query_run) > 0){

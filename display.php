@@ -1,5 +1,6 @@
 <?php
 
+ require('check-sess-cookies.php');
 $servername = "localhost";
 $dbname = "project_x";
 $dbusername = "charlie";

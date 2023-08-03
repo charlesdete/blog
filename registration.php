@@ -1,6 +1,12 @@
 
 <?php
 session_start();
+if( empty($_SESSION['Email'])){
+    header('location:home.php');
+    exit();
+} 
+
+//  require('check-sess-cookies.php');
 if($_SERVER['REQUEST_METHOD'] ==='POST'){
    
     //db connection configs
@@ -61,14 +67,14 @@ try {
         } catch (Exception $e) {
             echo "Error: " . $e->getMessage();
         }
-        // header('Location:login.php');
+        header('Location:verifyotp.php');
 }
 ?>
 <!DOCTYPE html>
 <html>
     <head> 
         <title>SIGN UP  HERE! </title>
-        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="style2.css">
     </head>
 <body>
  <div id class="registration">
@@ -80,27 +86,41 @@ try {
           unset($_SESSION['status']);
         }
         ?>
- 
- <form action="" <?php echo
+        <div class="popup_reg" id="popup_reg">
+ <div class="card2">
+ <form action="email-verify.php" <?php echo
     htmlspecialchars($_SERVER['PHP_SELF']) ?> method="POST">
+      <div class="card-header">
       <h2>Sign up here!</h2>
+    </div>
          <?php ?>
-               &nbsp;&nbsp;<label>Name</label>
-               <input type="text" name="Name" placeholder="">
+         <div class="form-group ">
+               <label>Name</label>
+               <input type="text" name="Name" placeholder="Name" class="input-style"></br>
                 &nbsp;<label> Email</label>
-               <input type="email" name="Email"placeholder="">
+               <input type="email" name="Email" placeholder="Email" class="input-style">
                 &nbsp;<label> Phone number </label>
-               <input type="phone number" name="phone"placeholder="">
+               <input type="phone number" name="phone"placeholder="phone number" class="input-style">
                 &nbsp;<label> Password </label>
-               <input type="password" name="password"placeholder="">
-       <br/>
-    
-  </br>
-  <div class='registerbtn'>
-<button type="submit" name="registerbtn" class="submit">Register </button>
-  </div>
-
-        </form>  
+               <input type="password" name="password"placeholder="Password" class="input-style">
+               <br/>
+        
+               </br>
+              <div class='registerbtn'>
+               <button type="submit" name="registerbtn" onlick="closePopup_reg()" class="button">Register </button>
+             </div>  
+            </div>
+          </form> 
+         </div> 
       </div>  
-   </body>
+    </body>
+    <script>
+ let popup_reg =document.getElementById("popup_reg");
+  function openPopup_reg(){
+    popup_reg.classList.add("open-popup_reg");
+  }
+  function closePopup_reg(){
+    popup_reg.classList.remove("open-popup_reg");
+  }
+ </script> 
 </html>

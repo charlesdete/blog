@@ -1,12 +1,18 @@
 <?php
+
 session_start();
-if(isset($_COOKIE['Email'])){
-    $email = $_COOKIE['Email'];
-    echo "<script>
-        document.getElementByID('Email').value = 'Email';
-    </script>";
+if( empty($_SESSION['Email'])){
+    header('location:home.php');
+    exit();
+}  
+
+ if(isset($_COOKIE['Email'])){
+         $email = $_COOKIE['Email'];
+     echo "<script>
+         document.getElementByID('Email').value = 'Email';
+     </script>";
     
-}
+ }
 
 
 if($_SERVER['REQUEST_METHOD'] ==='POST'){
@@ -60,9 +66,12 @@ if($_SERVER['REQUEST_METHOD'] ==='POST'){
                     if(!empty($_POST['remember'])){
                         $set_remember = $_POST['remember'];
                         $user_email = $_POST['Email'];
+                        // set session
+                        $_SESSION['Email']=$email;
+                        $_SESSION['Id']=$id;
                         //set cookie that will be used to auto login a user.
-                        setcookie('email',md5($user_email),time()+3600*24);
-                        setcookie('user_id', md5($result['Id']),time()+3600*24);
+                        setcookie('Email',md5($user_email),time()+3600);
+                        setcookie('user_id', md5($result['Id']),time()+3600);
                     
                     }
                     
@@ -93,42 +102,48 @@ if($_SERVER['REQUEST_METHOD'] ==='POST'){
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Auth - Registration</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Login</title>
+    <link rel="stylesheet" href="style2.css">
 </head>
 <body>
-    <div id class="login">
+    <!-- <div class="container">
+<button  type="submit" name="login" onclick="openPopup()" class="button">login</button>
+</div>   -->
+<div class="popup" id="popup">
+    <div class="card2">
+<div class="card-header">
         <h1>LOGIN</h1>
     <form action="" <?php echo
     htmlspecialchars($_SERVER['PHP_SELF']) ?> method="post">
          <?php if(isset($_GET['error'])){?>
             <p class="error"><?php echo $_GET ['error'];?></p> 
-
        <?php  } ?>  
-    <div>
-            
-        <div>
             <label>Email</label>
-        <input type="email" name="Email" placeholder="" class="input-field"  required value="<?php if(isset($_COOKIE['Email'])){
+        <input type="email" name="Email" placeholder="Email" class="input-style"  required value="<?php if(isset($_COOKIE['Email'])){
             echo $_COOKIE['Email'];};?>">
-        </div>
-
-        <div>
             <label>Password</label>
-        <input type="password" name="password"  placeholder="" class="input-field">
+        <input type="password" name="password"  placeholder="Password" class="input-style">
+            <div class="remember">
+        <p><label for="rememeber-me">Remember me</label>
+            <input type="checkbox" name="remember"></p>
+        <button  type="submit" name="login" onlick="closePopup()" class="button">login</button>
+        <br/>
+        <p><a href="registration.php"> Create an account </a></br>
+        <a href="./reset-password.php">Forgotten Password?</a>
+    
+         </form>
+            </div>
+               </div>
+                 </div>
         </div>
-        
-            <div id class="remember">
-            
-        <p>remember me<input type="checkbox" name="remember"></p>
-</div>
-        <div id class='button'>
-            <button type="submit" name="login_btn">login</button>
-        </div><br/>
-        
-        <p><a href="registration.php"> create an account </a>
-</div>
-    </form>
-    <div class="form-sub-msg"><a href="./reset-password.php">Forgotten Password?</a></div>
 </body>
+<script>
+ let popup =document.getElementById("popup");
+  function openPopup(){
+    popup.classList.add("open-popup");
+  }
+  function closePopup(){
+    popup.classList.remove("open-popup");
+  }
+ </script>   
 </html>

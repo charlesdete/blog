@@ -1,14 +1,13 @@
-<!DOCTYPE html>
-<html>
-<head> 
-    <title>EDIT</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+
 <?php
 // Assuming you have already started the session
 session_start();
 
+$email=$_SESSION['Email'];
+ if( empty($_SESSION['Email'])){
+    header('location:home.php');
+    exit();
+}
 // Check if the form is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Retrieve the updated name and ID from the form
@@ -53,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-    <div id class="home">
+    <!-- <div id class="home">
         <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
             <h2>UPDATE PROFILE</h2>
             &nbsp;<label> Name</label>
@@ -72,4 +71,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </form>  
       </div>  
    </body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update</title>
+    <link rel="stylesheet" href="style2.css">
+</head>
+<body>
+<div class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div clas="col-md-6"> 
+                 <div class="card2">
+        <div class="card-header">
+            <h5>UPDATE</h5>
+        </div>
+        <form action="" method="POST">
+           <div class="form-group">
+            
+            <label> Name</label>
+            <input type="text" name="Name" placeholder="" class="input-style">
+            <label> Email</label>
+            <input type="email" name="Email" placeholder="" class="input-style">
+             <label> Phone number</label>
+            <input type="text" name="phone" placeholder="" class="input-style">
+            <label> Password</label>
+            <input type="password" name="password" placeholder=""class="input-style">
+            <br/>
+            
+                <button type="submit" name="" class="button">Update</button>
+          </div>
+         </form>
+             </div>
+               </div>
+                 </div>    
+                   </div>
+                     </div>
+</body>
 </html>
